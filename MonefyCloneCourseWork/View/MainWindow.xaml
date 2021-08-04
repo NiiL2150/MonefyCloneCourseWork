@@ -22,6 +22,15 @@
     </Window.Resources>
     
     <Grid x:Name="MainGrid" Background="#fff2fff7">
+        <StackPanel  Orientation="Vertical" Height="50" VerticalAlignment="Top">
+            <StackPanel.RenderTransform>
+                <TranslateTransform Y="-100"/>
+            </StackPanel.RenderTransform>
+            <TextBox x:Name="textBoxCategory" Text="{Binding SelectedCategory, Mode=TwoWay}"/>
+            <TextBox Text="{Binding SelectedMoney, Mode=TwoWay}"/>
+            <CheckBox x:Name="checkBoxIncome" Content="IsIncome" IsChecked="{Binding IsIncome, Mode=TwoWay}"/>
+        </StackPanel>
+        
         <Grid x:Name="ColorGrid" Panel.ZIndex="-1">
             <Grid.Background>
                 <SolidColorBrush x:Name="GridColor" Color="Transparent"/>
@@ -82,8 +91,176 @@
                 </EventTrigger>
             </StackPanel.Triggers>
         </StackPanel>
-        <Grid Panel.ZIndex="2" x:Name="ExpenseGrid"/>
-        <Grid Panel.ZIndex="2" x:Name="IncomeGrid"/>
+        <Grid Panel.ZIndex="2" Background="#fff2fff7" x:Name="IncomeGrid" Height="350">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Background="#ff7ac794">
+                <Viewbox HorizontalAlignment="Left">
+                    <TextBlock Text="𝓝𝓮𝔀 𝓘𝓷𝓬𝓸𝓶𝓮"/>
+                </Viewbox>
+            </Grid>
+            <Viewbox Grid.Row="1">
+                <TextBlock Text="{Binding SelectedDate}"/>
+            </Viewbox>
+            <Grid Background="#ff7ac794" Grid.Row="2">
+                <Image HorizontalAlignment="Left" Source="/Images/Money_Icon.png"/>
+                <TextBox Text="{Binding SelectedMoney, Mode=TwoWay}" HorizontalAlignment="Center" FontSize="36" Background="Transparent"/>
+            </Grid>
+
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="btn16" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn16, Path=Content}" Grid.Row="0" Grid.Column="0" Content="Salary"/>
+                <Button x:Name="btn17" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn17, Path=Content}" Grid.Row="0" Grid.Column="1" Content="Investments"/>
+                <Button x:Name="btn18" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn18, Path=Content}" Grid.Row="0" Grid.Column="2" Content="Savings"/>
+                <Button x:Name="btn19" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn19, Path=Content}" Grid.Row="0" Grid.Column="3" Content="Others"/>
+            </Grid>
+            <Button Grid.Row="4" Command="{Binding AddIncome}" Content="Add income">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="ExpenseGrid"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                         To="-900" DecelerationRatio="1" Duration="0:0:0.5"/>
+                                <Int32Animation Storyboard.TargetName="ColorGrid" Duration="00:00:0.5" 
+                                    Storyboard.TargetProperty="(Panel.ZIndex)" To="-1"/>
+                                <ColorAnimation Storyboard.TargetName="GridColor"
+                                         Storyboard.TargetProperty="Color"
+                                         To="#00000000"  Duration="0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Grid.RenderTransform>
+                <TranslateTransform Y="-900"/>
+            </Grid.RenderTransform>
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="IncomeGrid"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                         To="-900" DecelerationRatio="1" Duration="0:0:0.5"/>
+                            <Int32Animation Storyboard.TargetName="ColorGrid" Duration="00:00:0.5" 
+                                    Storyboard.TargetProperty="(Panel.ZIndex)" To="-1"/>
+                            <ColorAnimation Storyboard.TargetName="GridColor"
+                                         Storyboard.TargetProperty="Color"
+                                         To="#00000000"  Duration="0:0:0.5"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Grid.Triggers>
+        </Grid>
+        <Grid Panel.ZIndex="2" Background="#fff2fff7" x:Name="ExpenseGrid" Height="350">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="4*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Background="#ff7ac794">
+                <Viewbox HorizontalAlignment="Left">
+                    <TextBlock Text="𝓝𝓮𝔀 𝓔𝔁𝓹𝓮𝓷𝓼𝓮"/>
+                </Viewbox>
+            </Grid>
+            <Viewbox Grid.Row="1">
+                <TextBlock Text="{Binding SelectedDate}"/>
+            </Viewbox>
+            <Grid Background="#ff7ac794" Grid.Row="2">
+                <Image HorizontalAlignment="Left" Source="/Images/Money_Icon.png"/>
+                <TextBox Text="{Binding SelectedMoney, Mode=TwoWay}" HorizontalAlignment="Center" FontSize="36" Background="Transparent"/>
+            </Grid>
+            
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="btn0" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn0, Path=Content}" Grid.Row="0" Grid.Column="0" Content="Hygiene"/>
+                <Button x:Name="btn1" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn1, Path=Content}" Grid.Row="0" Grid.Column="1" Content="Food"/>
+                <Button x:Name="btn2" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn2, Path=Content}" Grid.Row="0" Grid.Column="2" Content="Insurance"/>
+                <Button x:Name="btn3" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn3, Path=Content}" Grid.Row="0" Grid.Column="3" Content="Healthcare"/>
+                <Button x:Name="btn4" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn4, Path=Content}" Grid.Row="1" Grid.Column="0" Content="Cafe"/>
+                <Button x:Name="btn5" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn5, Path=Content}" Grid.Row="1" Grid.Column="1" Content="Car"/>
+                <Button x:Name="btn6" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn6, Path=Content}" Grid.Row="1" Grid.Column="2" Content="Clothes"/>
+                <Button x:Name="btn7" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn7, Path=Content}" Grid.Row="1" Grid.Column="3" Content="Pets"/>
+                <Button x:Name="btn8" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn8, Path=Content}" Grid.Row="2" Grid.Column="0" Content="Presents"/>
+                <Button x:Name="btn9" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn9, Path=Content}" Grid.Row="2" Grid.Column="1" Content="Fun"/>
+                <Button x:Name="btn10" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn10, Path=Content}" Grid.Row="2" Grid.Column="2" Content="Telecommunications"/>
+                <Button x:Name="btn11" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn11, Path=Content}" Grid.Row="2" Grid.Column="3" Content="Sport"/>
+                <Button x:Name="btn12" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn12, Path=Content}" Grid.Row="3" Grid.Column="0" Content="Bills"/>
+                <Button x:Name="btn13" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn13, Path=Content}" Grid.Row="3" Grid.Column="1" Content="Taxi"/>
+                <Button x:Name="btn14" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn14, Path=Content}" Grid.Row="3" Grid.Column="2" Content="Transport"/>
+                <Button x:Name="btn15" Command="{Binding UpdateCategory}" CommandParameter="{Binding ElementName=btn15, Path=Content}" Grid.Row="3" Grid.Column="3" Content="Others"/>
+            </Grid>
+            <Button Grid.Row="4" Command="{Binding AddCommand}" Content="Add expense">
+                <Button.Triggers>
+                    <EventTrigger RoutedEvent="Button.Click">
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="ExpenseGrid"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                         To="-900" DecelerationRatio="1" Duration="0:0:0.5"/>
+                                <Int32Animation Storyboard.TargetName="ColorGrid" Duration="00:00:0.5" 
+                                    Storyboard.TargetProperty="(Panel.ZIndex)" To="-1"/>
+                                <ColorAnimation Storyboard.TargetName="GridColor"
+                                         Storyboard.TargetProperty="Color"
+                                         To="#00000000"  Duration="0:0:0.5"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </EventTrigger>
+                </Button.Triggers>
+            </Button>
+
+            <Grid.RenderTransform>
+                <TranslateTransform Y="-900"/>
+            </Grid.RenderTransform>
+            <Grid.Triggers>
+                <EventTrigger RoutedEvent="Mouse.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="ExpenseGrid"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                         To="-900" DecelerationRatio="1" Duration="0:0:0.5"/>
+                            <Int32Animation Storyboard.TargetName="ColorGrid" Duration="00:00:0.5" 
+                                    Storyboard.TargetProperty="(Panel.ZIndex)" To="-1"/>
+                            <ColorAnimation Storyboard.TargetName="GridColor"
+                                         Storyboard.TargetProperty="Color"
+                                         To="#00000000"  Duration="0:0:0.5"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </Grid.Triggers>
+        </Grid>
         <Grid Panel.ZIndex="0" x:Name="TotalGrid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
@@ -118,7 +295,7 @@
                     </Button.Triggers>
                 </Button>
                 <Viewbox Grid.Column="2" HorizontalAlignment="Left">
-                    <TextBlock Text="𝓜𝓸𝓷𝓮𝓯𝔂 𝓟𝓒 (do not evaluate, not finished)"/>
+                    <TextBlock Text="𝓜𝓸𝓷𝓮𝓯𝔂 𝓟𝓒"/>
                 </Viewbox>
                 <Button BorderThickness="0" HorizontalAlignment="Left" Background="Transparent" Grid.Column="0">
                     <Image Source="/Images/Settings_Icon.png"/>
@@ -198,18 +375,51 @@
                             <Setter Property="CornerRadius" Value="250"/>
                         </Style>
                     </Button.Resources>
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="Button.Click">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <BooleanAnimationUsingKeyFrames Storyboard.TargetName="checkBoxIncome" Storyboard.TargetProperty="IsChecked">
+                                        <DiscreteBooleanKeyFrame KeyTime="00:00:01" Value="False" />
+                                    </BooleanAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetName="ExpenseGrid"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                         To="0" DecelerationRatio="1" Duration="0:0:0.5"/>
+                                    <Int32Animation Storyboard.TargetName="ColorGrid" Duration="00:00:0.5" 
+                                    Storyboard.TargetProperty="(Panel.ZIndex)" To="1"/>
+                                    <ColorAnimation Storyboard.TargetName="GridColor"
+                                         Storyboard.TargetProperty="Color"
+                                         To="#AA000000"  Duration="0:0:0.5"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
                 </Button>
-                <StackPanel Grid.Column="2" Orientation="Vertical">
-                    <TextBox Text="{Binding SelectedCategory, Mode=TwoWay}"/>
-                    <TextBox Text="{Binding SelectedMoney, Mode=TwoWay}"/>
-                    <CheckBox Content="IsIncome" IsChecked="{Binding IsIncome, Mode=TwoWay}"/>
-                </StackPanel>
-                <Button Command="{Binding AddCommand}" BorderThickness="10"  BorderBrush="SeaGreen" Grid.Column="3" Background="Transparent" Content="+" FontSize="72" Foreground="SeaGreen">
+                <Button BorderThickness="10"  BorderBrush="SeaGreen" Grid.Column="3" Background="Transparent" Content="+" FontSize="72" Foreground="SeaGreen">
                     <Button.Resources>
                         <Style TargetType="Border">
                             <Setter Property="CornerRadius" Value="250"/>
                         </Style>
                     </Button.Resources>
+                    <Button.Triggers>
+                        <EventTrigger RoutedEvent="Button.Click">
+                            <BeginStoryboard>
+                                <Storyboard>
+                                    <BooleanAnimationUsingKeyFrames Storyboard.TargetName="checkBoxIncome" Storyboard.TargetProperty="IsChecked">
+                                        <DiscreteBooleanKeyFrame KeyTime="00:00:01" Value="True" />
+                                    </BooleanAnimationUsingKeyFrames>
+                                    <DoubleAnimation Storyboard.TargetName="IncomeGrid"
+                                         Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                         To="0" DecelerationRatio="1" Duration="0:0:0.5"/>
+                                    <Int32Animation Storyboard.TargetName="ColorGrid" Duration="00:00:0.5" 
+                                    Storyboard.TargetProperty="(Panel.ZIndex)" To="1"/>
+                                    <ColorAnimation Storyboard.TargetName="GridColor"
+                                         Storyboard.TargetProperty="Color"
+                                         To="#AA000000"  Duration="0:0:0.5"/>
+                                </Storyboard>
+                            </BeginStoryboard>
+                        </EventTrigger>
+                    </Button.Triggers>
                 </Button>
             </Grid>
         </Grid>

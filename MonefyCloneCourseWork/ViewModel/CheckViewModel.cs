@@ -19,7 +19,7 @@ namespace MonefyCloneCourseWork.ViewModel
         public DateTime SelectedDate { get => selectedDate; set { selectedDate = value; PeriodSelect(); OnPropertyChanged(nameof(SelectedDate)); } } //SelectedDate
         public DateTime CycleStart { get => cycleStart; set { cycleStart = value; PeriodSelect(); OnPropertyChanged(nameof(CycleStart)); } } //for instance if you chooce yearly, it shows 01.01.{year}
         int cyclePeriod = 1;
-        string selectedCategory = "";
+        string selectedCategory = "Others";
         bool isIncome = false;
         public int CyclePeriod { get => cyclePeriod; set { cyclePeriod = value; PeriodSelect(); OnPropertyChanged(nameof(CyclePeriod)); } } //and 364/365 days
         public string SelectedCategory { get => selectedCategory; set { selectedCategory = value; OnPropertyChanged(nameof(SelectedCategory)); } } //Category of income or expense
@@ -28,7 +28,7 @@ namespace MonefyCloneCourseWork.ViewModel
         public double IncomeMoney { get => incomeMoney; set { incomeMoney = value; OnPropertyChanged(nameof(IncomeMoney)); } }
         public double ExpenseMoney { get => expenseMoney; set { expenseMoney = value; OnPropertyChanged(nameof(ExpenseMoney)); } }
         public double TotalMoney { get { return IncomeMoney - ExpenseMoney; } }
-        public double SelectedMoney { get => selectedMoney; set { selectedMoney = value; OnPropertyChanged(nameof(SelectedMoney)); } } //Amount of money got or used
+        public double SelectedMoney { get => selectedMoney; set { selectedMoney = Double.Parse(value.ToString("F2")); OnPropertyChanged(nameof(SelectedMoney)); } } //Amount of money got or used
         ObservableCollection<KeyValuePair<string, double>> valueList = new ObservableCollection<KeyValuePair<string, double>>();
         public ObservableCollection<KeyValuePair<string, double>> ValueList
         {
@@ -112,6 +112,21 @@ namespace MonefyCloneCourseWork.ViewModel
         private RelayCommand _saveCommand;
         private RelayCommand _openCommand;
         private RelayCommand _addCommand;
+        private RelayCommand _addIncome;
+        private RelayCommand _updateCommand;
+
+        public RelayCommand UpdateCategory
+        {
+            get
+            {
+                return _updateCommand ?? (_updateCommand = new RelayCommand(Update));
+            }
+        }
+
+        void Update(object category)
+        {
+            SelectedCategory = (category.ToString());
+        }
 
         public RelayCommand SaveCommand
         {
@@ -156,11 +171,33 @@ namespace MonefyCloneCourseWork.ViewModel
                     Check check = new Check();
                     check.Date = SelectedDate;
                     check.Category = SelectedCategory;
-                    check.IsIncome = this.IsIncome;
+                    check.IsIncome = false;
                     check.Money = SelectedMoney;
                     Checks.Add(check);
                     SelectedCategory = "";
                     SelectedMoney = 0;
+                    PeriodSelect();
+                    if (SaveCommand.CanExecute(Checks))
+                        SaveCommand.Execute(Checks);
+                }));
+            }
+        }
+
+        public RelayCommand AddIncome
+        {
+            get
+            {
+                return _addIncome ?? (_addIncome = new RelayCommand(obj =>
+                {
+                    Check check = new Check();
+                    check.Date = SelectedDate;
+                    check.Category = SelectedCategory;
+                    check.IsIncome = true;
+                    check.Money = SelectedMoney;
+                    Checks.Add(check);
+                    SelectedCategory = "";
+                    SelectedMoney = 0;
+                    PeriodSelect();
                     if (SaveCommand.CanExecute(Checks))
                         SaveCommand.Execute(Checks);
                 }));
